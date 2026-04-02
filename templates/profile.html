@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}프로필{% endblock %}
+
+{% block content %}
+<main class="profile-page">
+    <div class="profile-card">
+        <div class="profile-avatar">
+            {{ username[0].upper() }}
+        </div>
+        <div class="profile-info">
+            <span class="auth-label">SIGNED IN AS</span>
+            <h1>{{ username }}</h1>
+        </div>
+        <div class="profile-meta">
+            <div class="meta-item">
+                <span class="meta-label">아이디</span>
+                <span class="meta-value">{{ username }}</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">상태</span>
+                <span class="meta-value status">● 활성</span>
+            </div>
+        </div>
+        <a href="/login" class="btn-secondary">로그아웃</a>
+    </div>
+</main>
+{% endblock %}

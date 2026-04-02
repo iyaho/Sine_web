@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}회원가입{% endblock %}
+
+{% block content %}
+<main class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <span class="auth-label">CREATE ACCOUNT</span>
+            <h1>회원가입</h1>
+        </div>
+        <form method="POST" action="/register" class="auth-form">
+            <div class="field">
+                <label for="username">아이디</label>
+                <div class="input-check-row">
+                    <input type="text" name="username" id="username" placeholder="username" autocomplete="off">
+                    <button type="button" class="btn-check" onclick="checkUsername()">중복확인</button>
+                </div>
+                <span class="check-result" id="check-result"></span>
+            </div>
+            <div class="field">
+                <label for="password">비밀번호</label>
+                <input type="password" name="password" id="password" placeholder="••••••••">
+            </div>
+            {% if error %}<div class="form-error">{{ error }}</div>{% endif %}
+            <button type="submit" class="btn-primary">가입하기</button>
+        </form>
+        <p class="auth-link">이미 계정이 있나요? <a href="/login">로그인</a></p>
+
+        <script>
+        function checkUsername() {
+            const username = document.getElementById('username').value.trim();
+            const result = document.getElementById('check-result');
+            if (!username) {
+                result.textContent = '아이디를 입력해주세요.';
+                result.className = 'check-result taken';
+                return;
+            }
+            fetch('/check-username?username=' + encodeURIComponent(username))
+                .then(r => r.json())
+                .then(data => {
+                    if (data.available === true) {
+                        result.textContent = '사용 가능한 아이디예요.';
+                        result.className = 'check-result available';
+                    } else {
+                        result.textContent = '이미 사용 중인 아이디예요.';
+                        result.className = 'check-result taken';
+                    }
+                });
+        }
+        </script>
+    </div>
+</main>
+{% endblock %}
