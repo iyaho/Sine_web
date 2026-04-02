@@ -92,6 +92,10 @@ def profile():
     username = session.get('username')
     return render_template('profile.html', username=username)
 
+@app.errorhandler(404)
+def not_found(_):
+    return render_template('404.html'), 404
+
 @app.route('/logout')
 def logout():
     session.clear()
